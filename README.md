@@ -1,6 +1,6 @@
 # 🚀 Tech-Chatbot
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
 [![License](https://img.shields.io/github/license/YoungsterDumb/Tech-Chatbot)](LICENSE)
 [![Issues](https://img.shields.io/github/issues/YoungsterDumb/Tech-Chatbot)](https://github.com/YoungsterDumb/Tech-Chatbot/issues)
 
@@ -15,7 +15,6 @@
 - 🖥️ **Modern Web Interface**: Built with Flask, HTML, CSS, and JavaScript
 - 🤖 **LLM Integration**: Supports HuggingFace, Mistral, and more
 - 🔍 **Vector Search**: Fast, relevant answers using FAISS
-- 🌐 **Multilingual**: Vietnamese and English support
 - 📄 **Document-based**: Answers are grounded in your own PDF knowledge base
 
 ---
@@ -34,6 +33,11 @@ python -m venv .venv
 source .venv/bin/activate  # On Linux/MacOS
 .venv\Scripts\activate   # On Windows
 ```
+#### Using Anaconda
+```bash
+conda create -n tech-chatbot python=3.10
+conda activate tech-chatbot
+```
 
 ### 3. Install dependencies
 ```bash
@@ -43,7 +47,7 @@ pip install -r requirements.txt
 ### 4. Configure environment variables
 Create a `.env` file in the project root:
 ```env
-HF_TOKEN=your_huggingface_token
+HUGGINGFACE_API_KEY = your_huggingface_token
 ```
 
 ### 5. Prepare your data
@@ -63,17 +67,6 @@ Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
 - Type your technology-related question in the chat box and click **Send**.
 - The bot will answer based on the content of your uploaded documents.
 - Use the **🗑️ Clear chat history** button to reset the conversation.
-
----
-
-## 🤝 Contributing
-
-Pull requests and issues are welcome! If you have ideas, bug reports, or want to add features, feel free to contribute.
-
-- Fork this repo
-- Create a new branch
-- Make your changes
-- Submit a pull request
 
 ---
 
