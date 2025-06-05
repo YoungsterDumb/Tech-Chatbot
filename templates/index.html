@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800">💻 Tech Chatbot</h1>
+        </header>
+
+        <div class="bg-white rounded-lg shadow-lg p-4">
+            <div id="chat-container" class="chat-container mb-4">
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <div class="border-t pt-4">
+                <form id="chat-form" class="flex gap-2">
+                    <input type="text" 
+                           id="user-input" 
+                           class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                           placeholder="Type your question here..."
+                           required>
+                    <button type="submit" 
+                            class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        Send
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button id="clear-chat" 
+                    class="px-4 py-2 text-gray-600 hover:text-gray-800 focus:outline-none">
+                🗑️ Delete chat history
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const clearChat = document.getElementById('clear-chat');
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.textContent = content;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const question = userInput.value.trim();
+            if (!question) return;
+
+            // Add user message
+            addMessage(question, true);
+            userInput.value = '';
+
+            // Add bot placeholder right after user message
+            const botMsgDiv = addMessage('Responding...', false);
+
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    botMsgDiv.textContent = data.answer;
+                } else {
+                    botMsgDiv.textContent = 'Error, please try again!';
+                }
+            } catch (error) {
+                botMsgDiv.textContent = 'Error, please try again!';
+            }
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        });
+
+        clearChat.addEventListener('click', () => {
+            chatContainer.innerHTML = '';
+        });
+    </script>
+</body>
+</html> 
