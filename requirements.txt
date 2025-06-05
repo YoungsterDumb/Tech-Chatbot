@@ -1,0 +1,10 @@
+flask
+langchain
+langchain-huggingface
+langchain-community
+huggingface-hub
+faiss-cpu
+faiss-gpu
+python-dotenv
+sentence-transformers
+requests 
